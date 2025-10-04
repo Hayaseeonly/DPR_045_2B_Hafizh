@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AnggotaController; // <-- TAMBAHKAN INI
+use App\Http\Controllers\AnggotaController; // Pastikan ini ada
 
 /*
 |--------------------------------------------------------------------------
@@ -10,32 +10,35 @@ use App\Http\Controllers\AnggotaController; // <-- TAMBAHKAN INI
 |--------------------------------------------------------------------------
 */
 
-// Rute untuk Halaman Utama (jika diakses tanpa login)
+// Halaman utama
 Route::get('/', function () {
     return view('welcome');
 });
 
-// --- RUTE UNTUK AUTENTIKASI ---
+// Rute untuk Login dan Logout
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// --- RUTE UNTUK ADMIN YANG SUDAH LOGIN ---
-// Semua rute di dalam grup ini wajib login terlebih dahulu
-Route::middleware(['auth'])->prefix('admin')->group(function () {
-
-    // Rute untuk dashboard (halaman pertama setelah login jika diperlukan)
-    Route::get('/dashboard', function() {
-        // Untuk sementara, kita langsung arahkan ke halaman anggota
+// --- RUTE UNTUK ADMIN ---
+// Semua rute di dalam grup ini akan memiliki awalan URL /admin
+// dan awalan nama 'admin.'
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::resource('komponen-gaji', KomponenGajiController::class);
+    // Arahkan /admin ke halaman daftar anggota
+    Route::get('/', function() {
         return redirect()->route('admin.anggota.index');
-    })->name('admin.dashboard');
+    });
 
-    // Rute Resource untuk mengelola Anggota (CRUD)
-    // Ini akan otomatis membuat rute untuk:
-    // GET /admin/anggota -> AnggotaController@index (halaman yang kita tuju)
-    // GET /admin/anggota/create -> AnggotaController@create
-    // dan lainnya...
-    Route::resource('anggota', AnggotaController::class)->names('admin.anggota');
+    // Ini akan membuat rute dengan nama:
+    // admin.anggota.index
+    // admin.anggota.create
+    // admin.anggota.store
+    // admin.anggota.edit
+    // admin.anggota.update
+    // admin.anggota.destroy
+    Route::resource('anggota', AnggotaController::class);
 
+    // Nanti resource controller untuk Komponen Gaji dan Penggajian juga ditaruh di sini
 });

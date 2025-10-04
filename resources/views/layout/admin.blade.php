@@ -3,46 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Aplikasi Gaji DPR</title>
-
+    <title>Admin Panel - Gaji DPR</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body { display: flex; min-height: 100vh; flex-direction: column; }
+        .main-container { flex: 1; display: flex; }
+        .sidebar { width: 250px; background-color: #343a40; }
+        .content { flex-grow: 1; padding: 2rem; }
+    </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Admin Panel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('admin.anggota.index') }}">Manajemen Anggota</a>
-                    </li>
-                    {{-- Nanti link untuk menu lain bisa ditambahkan di sini --}}
-                </ul>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-light">Logout</button>
-                </form>
-            </div>
+    <div class="main-container">
+        <div class="sidebar text-white p-3">
+            <h4>Admin Menu</h4>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="{{ route('admin.anggota.index') }}" class="nav-link text-white {{ request()->routeIs('admin.anggota.*') ? 'active' : '' }}">
+                        Manajemen Anggota
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link text-white">
+                        Komponen Gaji
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link text-white">
+                        Penggajian
+                    </a>
+                </li>
+            </ul>
+            <hr>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-danger w-100">Logout</button>
+            </form>
         </div>
-    </nav>
-
-    <main>
-        <div class="container">
-            {{-- Bagian ini akan diisi oleh konten dari file index.blade.php, edit.blade.php, dll --}}
+        <div class="content bg-light">
             @yield('content')
         </div>
-    </main>
-
-    <footer class="text-center mt-5 py-3 bg-light">
-        <p class="mb-0">&copy; {{ date('Y') }} Aplikasi Gaji DPR by Hafizh</p>
-    </footer>
-
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
