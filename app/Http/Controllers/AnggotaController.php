@@ -30,7 +30,7 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            // 'id_anggota' => 'nullable|integer|max:5',
+            'id_anggota' => 'required|integer|unique:anggota,id_anggota',
             'gelar_depan' => 'nullable|string|max:50',
             'nama_depan' => 'required|string|max:100',
             'nama_belakang' => 'required|string|max:100',
@@ -90,12 +90,28 @@ class AnggotaController extends Controller
     /**
      * Menghapus data dari database.
      */
-    public function destroy($id_anggota)
-    {
-        $anggotum = Anggota::findOrFail($id_anggota);
-        $anggotum->delete();
 
-        return redirect()->route('admin.anggota.index')
-                         ->with('success', 'Data Anggota berhasil dihapus.');
-    }
+    public function destroy($id_anggota){   
+    // 1. Cari data anggota berdasarkan ID yang dikirim
+    $anggotum = Anggota::findOrFail($id_anggota);
+
+    // 2. Hapus data tersebut
+    $anggotum->delete();
+
+    // 3. Redirect kembali ke halaman daftar anggota dengan pesan sukses
+    return redirect()->route('admin.anggota.index')
+                     ->with('success', 'Data Anggota berhasil dihapus.');
+}
+
+
+
+    
+    // public function destroy($id_anggota)
+    // {
+    //     $anggotum = Anggota::findOrFail($id_anggota);
+    //     $anggotum->delete();
+
+    //     return redirect()->route('admin.anggota.index')
+    //                      ->with('success', 'Data Anggota berhasil dihapus.');
+    // }
 }

@@ -16,6 +16,12 @@
 
                 <div class="row">
                     {{-- Setiap input memiliki 'value' yang diisi dari data lama --}}
+                     <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="gelar_depan" class="form-label">ID Anggota</label>
+                            <input type="text" class="form-control" id="id_anggota" name="id_anggota" value="{{ old('id_anggota', $anggotum->id_anggota) }}">
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="gelar_depan" class="form-label">Gelar Depan</label>

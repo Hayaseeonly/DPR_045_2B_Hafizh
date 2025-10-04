@@ -11,6 +11,9 @@ class Anggota extends Model
     public $timestamps = false;
     protected $fillable = ['id_anggota', 'nama_depan', 'nama_belakang', 'gelar_depan', 'gelar_belakang', 'jabatan', 'status_pernikahan', 'jumlah_anak'];
 
+    public $incrementing = false;
+
+
     public function komponenGaji()
     {
         return $this->belongsToMany(KomponenGaji::class, 'penggajian', 'id_anggota', 'id_komponen_gaji');
