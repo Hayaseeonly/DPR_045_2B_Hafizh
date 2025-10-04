@@ -9,7 +9,7 @@ class Anggota extends Model
     protected $table = 'anggota';
     protected $primaryKey = 'id_anggota';
     public $timestamps = false;
-    protected $fillable = ['nama_depan', 'nama_belakang', 'gelar_depan', 'gelar_belakang', 'jabatan', 'status_pernikahan', 'jumlah_anak'];
+    protected $fillable = ['id_anggota', 'nama_depan', 'nama_belakang', 'gelar_depan', 'gelar_belakang', 'jabatan', 'status_pernikahan', 'jumlah_anak'];
 
     public function komponenGaji()
     {

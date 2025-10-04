@@ -30,6 +30,7 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            // 'id_anggota' => 'nullable|integer|max:5',
             'gelar_depan' => 'nullable|string|max:50',
             'nama_depan' => 'required|string|max:100',
             'nama_belakang' => 'required|string|max:100',
@@ -69,6 +70,7 @@ class AnggotaController extends Controller
     public function update(Request $request, $id_anggota)
     {
         $request->validate([
+            'id_anggota' => 'required|integer|exists:anggota,id_anggota',
             'gelar_depan' => 'nullable|string|max:50',
             'nama_depan' => 'required|string|max:100',
             'nama_belakang' => 'required|string|max:100',

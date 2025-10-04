@@ -23,6 +23,10 @@
             <form action="{{ route('admin.anggota.store') }}" method="POST">
                 @csrf <div class="row">
                     <div class="col-md-6">
+                          <!-- <div class="mb-3">
+                            <label for="gelar_depan" class="form-label">ID Anggota</label>
+                            <input type="text" class="form-control" id="id_anggota" name="Id Anggota" value="{{ old('id_anggota') }}">
+                        </div>         -->
                         <div class="mb-3">
                             <label for="gelar_depan" class="form-label">Gelar Depan</label>
                             <input type="text" class="form-control" id="gelar_depan" name="gelar_depan" value="{{ old('gelar_depan') }}">
@@ -70,8 +74,6 @@
                                 <option value="" disabled selected>-- Pilih Status --</option>
                                 <option value="Kawin" {{ old('status_pernikahan') == 'Kawin' ? 'selected' : '' }}>Kawin</option>
                                 <option value="Belum Kawin" {{ old('status_pernikahan') == 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin</option>
-                                <option value="Cerai Hidup" {{ old('status_pernikahan') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
-                                <option value="Cerai Mati" {{ old('status_pernikahan') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                             </select>
                         </div>
                     </div>
