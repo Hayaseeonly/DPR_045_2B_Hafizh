@@ -1,3 +1,5 @@
+@extends('layouts.admin')
+
 @section('content')
 <div class="container-fluid">
 
@@ -38,7 +40,6 @@
                     <tbody>
                         @forelse ($anggota as $item)
                         <tr>
-                            {{-- $loop->iteration akan otomatis membuat nomor urut berdasarkan data yang dipaginasi --}}
                             <td>{{ $anggota->firstItem() + $loop->index }}</td>
                             <td>
                                 {{ $item->gelar_depan }} {{ $item->nama_depan }} {{ $item->nama_belakang }} {{ $item->gelar_belakang }}

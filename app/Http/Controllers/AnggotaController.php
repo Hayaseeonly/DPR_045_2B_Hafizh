@@ -2,41 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota; // <-- Pastikan ini ada
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar semua data anggota.
      */
     public function index()
     {
-        // 1. Ambil semua data anggota dari model Anggota
-        //    'latest()' mengurutkan dari yang terbaru, 'paginate(10)' membatasi 10 data per halaman.
         $anggota = Anggota::latest('id_anggota')->paginate(10);
-
-        // 2. Kirim data tersebut ke file view 'index.blade.php'
         return view('admin.anggota.index', compact('anggota'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan form untuk menambah data baru.
      */
     public function create()
     {
-        //
+        return view('admin.anggota.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data baru ke database.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'gelar_depan' => 'nullable|string|max:50',
+            'nama_depan' => 'required|string|max:100',
+            'nama_belakang' => 'required|string|max:100',
+            'gelar_belakang' => 'nullable|string|max:50',
+            'jabatan' => 'required|string',
+            'status_pernikahan' => 'required|string',
+            'jumlah_anak' => 'required|integer|min:0',
+        ]);
+
+        Anggota::create($request->all());
+
+        return redirect()->route('admin.anggota.index')
+                         ->with('success', 'Data Anggota baru berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
+     * (Untuk proyek ini, kita tidak menggunakan 'show' secara spesifik, jadi bisa dibiarkan kosong)
      */
     public function show(string $id)
     {
@@ -44,26 +55,45 @@ class AnggotaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form untuk mengedit data.
      */
-    public function edit(string $id)
+    public function edit($id_anggota)
     {
-        //
+        $anggotum = Anggota::findOrFail($id_anggota);
+        return view('admin.anggota.edit', compact('anggotum'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate data di database.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id_anggota)
     {
-        //
-    }
+        $request->validate([
+            'gelar_depan' => 'nullable|string|max:50',
+            'nama_depan' => 'required|string|max:100',
+            'nama_belakang' => 'required|string|max:100',
+            'gelar_belakang' => 'nullable|string|max:50',
+            'jabatan' => 'required|string',
+            'status_pernikahan' => 'required|string',
+            'jumlah_anak' => 'required|integer|min:0',
+        ]);
+
+        $anggotum = Anggota::findOrFail($id_anggota);
+        $anggotum->update($request->all());
+
+        return redirect()->route('admin.anggota.index')
+                         ->with('success', 'Data Anggota berhasil diperbarui.');
+    } // <-- INI KURUNG KURAWAL YANG KEMUNGKINAN HILANG
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus data dari database.
      */
-    public function destroy(string $id)
+    public function destroy($id_anggota)
     {
-        //
+        $anggotum = Anggota::findOrFail($id_anggota);
+        $anggotum->delete();
+
+        return redirect()->route('admin.anggota.index')
+                         ->with('success', 'Data Anggota berhasil dihapus.');
     }
 }
